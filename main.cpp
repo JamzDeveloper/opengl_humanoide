@@ -21,10 +21,11 @@ using namespace std;
 
 GLUquadricObj *p = gluNewQuadric();
 
-float anguloTronco = 0;
-float anguloBrazo1 = 0;
-float anguloAntebrazo1 = 0;
-float anguloPierna =0;
+float anguloTronco = 0.0;
+float anguloBrazo1 = 0.0;
+float anguloAntebrazo1 = 0.0;
+float anguloPierna =30.0;
+float anguloPierna2=-30.0;
 float translationZ =0.0;
 float translationY=0.0;
 
@@ -112,7 +113,7 @@ void graficar()
 
 
 
-        //codo
+    //codo
     glPushMatrix();
     glTranslatef(0,0,0);
     glutSolidSphere(0.7,5,5);
@@ -120,10 +121,33 @@ void graficar()
 
 
     //mano
-     glPushMatrix();
+    glPushMatrix();
     glTranslatef(0,0,2);
     glutSolidSphere(0.7,5,5);
 
+    //dedo
+
+    glPushMatrix();
+    //falange proximal
+    glTranslatef(0,0,0.6);
+    gluCylinder(p,0.1,0.1,0.3,10,10);
+
+    glPushMatrix();
+    //falange media
+    glTranslatef(0,0,0.3);
+    glRotatef(90,1,0,0);
+    gluCylinder(p,0.1,0.1,0.3,10,10);
+
+    glPushMatrix();
+
+    //falange distal
+    glTranslatef(0,0,0.3);
+    glRotatef(45,1,0,0);
+    gluCylinder(p,0.1,0.1,0.3,10,10);
+
+    glPopMatrix();// fin de falange proximal
+    glPopMatrix();// fin de falange media
+        glPopMatrix();// fin de falange distal
 
     glPopMatrix();
 
@@ -131,6 +155,7 @@ void graficar()
     glPopMatrix();
 
     glPopMatrix();
+
     glPushMatrix();
     glTranslatef(-TORSO_RADIUS, 0, 0);
     //glRotatef(anguloBrazo1*-1, 0, 0, 1);//rua brazo2
@@ -156,7 +181,7 @@ void graficar()
     //  glRotatef(90, 1, 0, 0);
     gluCylinder(p, LOWER_ARM_RADIUS, LOWER_ARM_RADIUS, LOWER_ARM_HEIGHT, 10,
                 10);
- glPushMatrix();
+    glPushMatrix();
     glTranslatef(0,0,0);
     glutSolidSphere(0.7,5,5);
     glPopMatrix();
@@ -189,7 +214,7 @@ void graficar()
     glRotatef(90, 1, 0, 0);
     gluCylinder(p, LOWER_LEG_RADIUS, LOWER_LEG_RADIUS, LOWER_LEG_HEIGHT, 10,
                 10);
-                //rodilla
+    //rodilla
     glPushMatrix();
     glTranslatef(0,0,0);
     glutSolidSphere(0.7,5,5);
@@ -201,7 +226,7 @@ void graficar()
     glPopMatrix();
     glPushMatrix();
     glTranslatef(-TORSO_RADIUS, -TORSO_HEIGHT, 0);
-    glRotatef(anguloPierna, 1, 0, 0);//rul-----> pierna izquieda
+    glRotatef(anguloPierna2*-1, 1, 0, 0);//rul-----> pierna izquieda
 
     //right_upper_leg();
     glPushMatrix();
@@ -212,7 +237,7 @@ void graficar()
 
     glTranslatef(0, -UPPER_LEG_HEIGHT, 0);
 
-    glRotatef(anguloPierna*-1, 1, 0, 0);//rll --pie ezquierdo
+    glRotatef(anguloPierna2, 1, 0, 0);//rll --pie ezquierdo
 
     //    right_lower_leg();
     glPushMatrix();
@@ -455,7 +480,7 @@ bool extrarRotarCuerpo= true;
 
 void eventoTeclado(unsigned char key,int x, int y)
 {
-
+    float auxPiernas=0.0;
     switch(key)
     {
     case ' ':
@@ -469,40 +494,61 @@ void eventoTeclado(unsigned char key,int x, int y)
         translationZ +=-0.5;
         if(extraPiernas)
         {
-            anguloPierna=30;
+            auxPiernas=anguloPierna;
+            //   anguloPierna=30;
+            anguloPierna = anguloPierna2;
+            anguloPierna2= auxPiernas;
             extraPiernas=false;
         }
 
         else
         {
-            anguloPierna=0;
+            /* anguloPierna=0;
+             anguloPierna2= anguloPierna;*/
+
+            auxPiernas=anguloPierna;
+            //   anguloPierna=30;
+            anguloPierna = anguloPierna2;
+            anguloPierna2= auxPiernas;
             extraPiernas= true;
         }
         break;
     case 's':
 
         translationZ +=0.5;
-        if(extraPiernas)
+        /*if(extraPiernas)
         {
             anguloPierna=-30;
+            anguloPierna2= anguloPierna;
             extraPiernas=false;
         }
 
         else
         {
             anguloPierna=0;
+            anguloPierna2= anguloPierna;
             extraPiernas= true;
-        }
+        }*/
+
+        auxPiernas=anguloPierna;
+        //   anguloPierna=30;
+        anguloPierna = anguloPierna2;
+        anguloPierna2= auxPiernas;
         break;
 
     case 'd':
-            rotarCuerpo=90;
+        rotarCuerpo+=5;
 
         break;
     case 'a':
-            rotarCuerpo=0;
+        rotarCuerpo-=5;
 
         break;
+    case 27:
+        exit(0);
+        break;
+
+
     }
 }
 
