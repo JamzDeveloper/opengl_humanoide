@@ -26,6 +26,8 @@ float anguloBrazo1 = 0.0;
 float anguloAntebrazo1 = 0.0;
 float anguloPierna =30.0;
 float anguloPierna2=-30.0;
+float anguloPie = 0.0;
+float anguloPie2 = 0.0;
 float translationZ =0.0;
 float translationY=0.0;
 
@@ -125,7 +127,28 @@ void graficar()
     glTranslatef(0,0,2);
     glutSolidSphere(0.7,5,5);
 
-    //dedo
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // primer dedo
+    glPushMatrix();
+
+    //falange proximal
+    glTranslatef(-0.3,0,0.6);
+    gluCylinder(p,0.1,0.1,0.3,10,10);
+
+    glPushMatrix();
+    //falange media
+    glTranslatef(0,0,0.3);
+    glRotatef(90,1,0,0);
+    gluCylinder(p,0.1,0.1,0.3,10,10);
+
+
+    glPopMatrix();// fin de falange media
+    glPopMatrix();// fin de falange distal
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    //segundo dedo
 
     glPushMatrix();
     //falange proximal
@@ -147,7 +170,74 @@ void graficar()
 
     glPopMatrix();// fin de falange proximal
     glPopMatrix();// fin de falange media
-        glPopMatrix();// fin de falange distal
+    glPopMatrix();// fin de falange distal
+    ////////////////////////////////////////////////////////////////////////
+    // tercero dedo
+    glPushMatrix();
+
+    //falange proximal
+    glTranslatef(0.2,0,0.6);
+    gluCylinder(p,0.1,0.1,0.38,10,10);
+
+    glPushMatrix();
+    //falange media
+    glTranslatef(0,0,0.38);
+    glRotatef(90,1,0,0);
+    gluCylinder(p,0.1,0.1,0.38,10,10);
+
+    glPushMatrix();
+
+    //falange distal
+    glTranslatef(0,0,0.38);
+    glRotatef(45,1,0,0);
+    gluCylinder(p,0.1,0.1,0.38,10,10);
+
+    glPopMatrix();// fin de falange proximal
+    glPopMatrix();// fin de falange media
+    glPopMatrix();// fin de falange distal
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // cuarto dedo
+    glPushMatrix();
+
+    //falange proximal
+    glTranslatef(0.4,0,0.6);
+    gluCylinder(p,0.1,0.1,0.3,10,10);
+
+    glPushMatrix();
+    //falange media
+    glTranslatef(0,0,0.3);
+    glRotatef(90,1,0,0);
+    gluCylinder(p,0.1,0.1,0.3,10,10);
+
+    glPushMatrix();
+
+    //falange distal
+    glTranslatef(0,0,0.3);
+    glRotatef(45,1,0,0);
+    gluCylinder(p,0.1,0.1,0.3,10,10);
+
+    glPopMatrix();// fin de falange proximal
+    glPopMatrix();// fin de falange media
+    glPopMatrix();// fin de falange distal
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // quinto dedo
+    glPushMatrix();
+
+    //falange proximal
+    glTranslatef(0.6,0,0.2);
+    gluCylinder(p,0.1,0.1,0.3,10,10);
+
+    glPushMatrix();
+    //falange media
+    glTranslatef(0,0,0.3);
+    glRotatef(90,1,0,0);
+    gluCylinder(p,0.1,0.1,0.3,10,10);
+
+
+    glPopMatrix();// fin de falange media
+    glPopMatrix();// fin de falange distal
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     glPopMatrix();
 
@@ -192,6 +282,124 @@ void graficar()
     glPopMatrix();
     glTranslatef(0,2.4,0);
     glutSolidSphere(0.7,5,5);
+
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+    glRotatef(-90,1,0,0);
+    // ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // primer dedo
+    glPushMatrix();
+
+    //falange proximal
+    glTranslatef(-0.3,0,0.6);
+    gluCylinder(p,0.1,0.1,0.3,10,10);
+
+    glPushMatrix();
+    //falange media
+    glTranslatef(0,0,0.3);
+    glRotatef(90,1,0,0);
+    gluCylinder(p,0.1,0.1,0.3,10,10);
+
+
+    glPopMatrix();// fin de falange media
+    glPopMatrix();// fin de falange distal
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    //segundo dedo
+
+    glPushMatrix();
+    //falange proximal
+    glTranslatef(0,0,0.6);
+    gluCylinder(p,0.1,0.1,0.3,10,10);
+
+    glPushMatrix();
+    //falange media
+    glTranslatef(0,0,0.3);
+    glRotatef(90,1,0,0);
+    gluCylinder(p,0.1,0.1,0.3,10,10);
+
+    glPushMatrix();
+
+    //falange distal
+    glTranslatef(0,0,0.3);
+    glRotatef(45,1,0,0);
+    gluCylinder(p,0.1,0.1,0.3,10,10);
+
+    glPopMatrix();// fin de falange proximal
+    glPopMatrix();// fin de falange media
+    glPopMatrix();// fin de falange distal
+    ////////////////////////////////////////////////////////////////////////
+    // tercero dedo
+    glPushMatrix();
+
+    //falange proximal
+    glTranslatef(0.2,0,0.6);
+    gluCylinder(p,0.1,0.1,0.38,10,10);
+
+    glPushMatrix();
+    //falange media
+    glTranslatef(0,0,0.38);
+    glRotatef(90,1,0,0);
+    gluCylinder(p,0.1,0.1,0.38,10,10);
+
+    glPushMatrix();
+
+    //falange distal
+    glTranslatef(0,0,0.38);
+    glRotatef(45,1,0,0);
+    gluCylinder(p,0.1,0.1,0.38,10,10);
+
+    glPopMatrix();// fin de falange proximal
+    glPopMatrix();// fin de falange media
+    glPopMatrix();// fin de falange distal
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // cuarto dedo
+    glPushMatrix();
+
+    //falange proximal
+    glTranslatef(0.4,0,0.6);
+    gluCylinder(p,0.1,0.1,0.3,10,10);
+
+    glPushMatrix();
+    //falange media
+    glTranslatef(0,0,0.3);
+    glRotatef(90,1,0,0);
+    gluCylinder(p,0.1,0.1,0.3,10,10);
+
+    glPushMatrix();
+
+    //falange distal
+    glTranslatef(0,0,0.3);
+    glRotatef(45,1,0,0);
+    gluCylinder(p,0.1,0.1,0.3,10,10);
+
+    glPopMatrix();// fin de falange proximal
+    glPopMatrix();// fin de falange media
+    glPopMatrix();// fin de falange distal
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // quinto dedo
+    glPushMatrix();
+
+    //falange proximal
+    glTranslatef(0.6,0,0.2);
+    gluCylinder(p,0.1,0.1,0.3,10,10);
+
+    glPushMatrix();
+    //falange media
+    glTranslatef(0,0,0.3);
+    glRotatef(90,1,0,0);
+    gluCylinder(p,0.1,0.1,0.3,10,10);
+
+
+    glPopMatrix();// fin de falange media
+    glPopMatrix();// fin de falange distal
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
     glPopMatrix();
 
     glPopMatrix();
@@ -219,6 +427,13 @@ void graficar()
     glTranslatef(0,0,0);
     glutSolidSphere(0.7,5,5);
     glPopMatrix();
+     //pie
+   glPushMatrix();
+   glRotatef(anguloPie2,1,0,0);/////////////////rotar al caminar
+    glScalef(1,1.5,1);
+   glTranslatef(0,-0.2,2);
+    glutSolidSphere(0.8,5,5);
+   glPopMatrix();
 
     glPopMatrix();
 
@@ -226,7 +441,7 @@ void graficar()
     glPopMatrix();
     glPushMatrix();
     glTranslatef(-TORSO_RADIUS, -TORSO_HEIGHT, 0);
-    glRotatef(anguloPierna2*-1, 1, 0, 0);//rul-----> pierna izquieda
+    glRotatef(anguloPierna2*-1.5, 1, 0, 0);//rul-----> pierna izquieda
 
     //right_upper_leg();
     glPushMatrix();
@@ -237,7 +452,7 @@ void graficar()
 
     glTranslatef(0, -UPPER_LEG_HEIGHT, 0);
 
-    glRotatef(anguloPierna2, 1, 0, 0);//rll --pie ezquierdo
+    glRotatef(anguloPierna2+5, 1, 0, 0);//rll --pie ezquierdo
 
     //    right_lower_leg();
     glPushMatrix();
@@ -248,6 +463,15 @@ void graficar()
     glPushMatrix();
     glTranslatef(0,0,0);
     glutSolidSphere(0.7,5,5);
+
+   //pie
+   glPushMatrix();
+   glRotatef(anguloPie,1,0,0);/////////////////rotar al caminar
+    glScalef(1,1.5,1);
+   glTranslatef(0,-0.2,2);
+    glutSolidSphere(0.8,5,5);
+   glPopMatrix();
+
     glPopMatrix();
 
     glPopMatrix();
@@ -498,6 +722,8 @@ void eventoTeclado(unsigned char key,int x, int y)
             //   anguloPierna=30;
             anguloPierna = anguloPierna2;
             anguloPierna2= auxPiernas;
+            anguloPie=-25;
+            anguloPie2=0;
             extraPiernas=false;
         }
 
@@ -510,30 +736,46 @@ void eventoTeclado(unsigned char key,int x, int y)
             //   anguloPierna=30;
             anguloPierna = anguloPierna2;
             anguloPierna2= auxPiernas;
+            anguloPie=0;
+            anguloPie2=-25;
             extraPiernas= true;
+
         }
         break;
     case 's':
 
         translationZ +=0.5;
-        /*if(extraPiernas)
+        if(extraPiernas)
         {
-            anguloPierna=-30;
-            anguloPierna2= anguloPierna;
+            /*anguloPierna=-30;
+            anguloPierna2= anguloPierna;*/
+            auxPiernas=anguloPierna;
+
+        anguloPierna = anguloPierna2;
+        anguloPierna2= auxPiernas;
+         anguloPie=-45;
+            anguloPie2=0;
             extraPiernas=false;
         }
 
         else
         {
-            anguloPierna=0;
-            anguloPierna2= anguloPierna;
-            extraPiernas= true;
-        }*/
-
-        auxPiernas=anguloPierna;
-        //   anguloPierna=30;
+            /*anguloPierna=0;
+            anguloPierna2= anguloPierna;*/
+            auxPiernas=anguloPierna;
         anguloPierna = anguloPierna2;
         anguloPierna2= auxPiernas;
+         anguloPie=0;
+         anguloPie2=-45;
+
+            extraPiernas= true;
+
+        }
+
+        /*auxPiernas=anguloPierna;
+        //   anguloPierna=30;
+        anguloPierna = anguloPierna2;
+        anguloPierna2= auxPiernas;*/
         break;
 
     case 'd':
