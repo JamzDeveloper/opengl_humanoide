@@ -1,6 +1,6 @@
 #include <gl\glut.h>
 #include <iostream>
-
+#include <math.h>
 using namespace std;
 
 #define HEAD_HEIGHT 3.0
@@ -28,19 +28,22 @@ float anguloPierna =30.0;
 float anguloPierna2=-30.0;
 float anguloPie = 0.0;
 float anguloPie2 = 0.0;
+float falangeProximal = 0.0;
+float falangemedia= 0.0;
+float falangeDistal= 0.0;
 float translationZ =0.0;
 float translationY=0.0;
 
-const GLfloat light_ambient[]  = { 0.0f, 0.0f, 0.0f, 1.0f };
-const GLfloat light_diffuse[]  = { 1.0f, 1.0f, 1.0f, 1.0f };// que colores se utilizaran por haci decirlo
-const GLfloat light_specular[] = { 1.0f, 1.0f, 1.0f, 1.0f };// la que reflejara por asi decirlo
-const GLfloat light_position[] = { 5.0f, 5.0f, 5.0f, 0.0f };
+////////////////////////////////////////// variables de movimiento de brazo derecho
+float anguloBrazoDerecho =0.0;
+float anguloAntebrazoDerecho =0.0;
+float moverFalangeMedia = 0.0;
 
-const GLfloat mat_ambient[]    = { 0.7f, 0.7f, 0.7f, 1.0f };
-const GLfloat mat_diffuse[]    = { 0.8f, 0.8f, 0.8f, 1.0f };
-const GLfloat mat_specular[]   = { 1.0f, 1.0f, 1.0f, 1.0f };
-const GLfloat high_shininess[] = { 100.0f };
 
+
+float posX=0,posY=1,posZ=5,visX=0,visY=1,visZ=- 1;
+float angle=0.0;
+float trasZ=0.0;
 
 
 void inicializar()
@@ -53,7 +56,7 @@ void inicializar()
 void graficarEjes()
 {
 
-    glColor3f (0.0f, 1.0f, 0.0f);
+    glColor3f (1.0f, 1.0f, 0.0f);
     glBegin (GL_QUADS);
     glVertex3f (-100.0f, -5.0f, -100.0f);
     glVertex3f (-100.0f, -5.0f, 100.0f);
@@ -69,13 +72,14 @@ void graficar()
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    gluLookAt(20,20,30, 0,0,0, 0,1,0);
+    gluLookAt(posX,posY,posZ,visX+posX,visY,visZ+posZ,0,1,0);
+
 
 
     graficarEjes();
     glRotatef(rotarCuerpo,0,1,0);
     glTranslatef(0.0,5,0.0);
-    glColor3f(0.6,0.5,0.9);
+    glColor3f(0.2,0.2,0.9);
     glTranslatef(0.0,translationY,translationZ);
     //torso();
     glPushMatrix();
@@ -93,29 +97,31 @@ void graficar()
     glPopMatrix();
 
     glPopMatrix();
-    glPushMatrix();
-    glTranslatef(TORSO_RADIUS, 0, 0);
-    glRotatef(anguloBrazo1, 1, 0, 0);//lua---> brazo derecho  /////////////////////////////mover brazo 60
+        glPushMatrix();// todo el brazo
+            glTranslatef(TORSO_RADIUS, 0, 0);
 
-    //left_upper_arm();
-    glPushMatrix();
-    glRotatef(90, 1, 0, 0);
-    gluCylinder(p, UPPER_ARM_RADIUS, UPPER_ARM_RADIUS, UPPER_ARM_HEIGHT, 10,
-                10);
-    glPopMatrix();
-
-    glTranslatef(0, -3, 0);
-    glRotatef(45, 1, 0, 0);//lla -- antebrazo derecho
-    // left_lower_arm();
-    glPushMatrix();
-    glRotatef(90, 1, 0, 0);
-    gluCylinder(p, LOWER_ARM_RADIUS, LOWER_ARM_RADIUS, LOWER_ARM_HEIGHT, 10,
-                10);
+            glRotatef(anguloBrazoDerecho, 1,0,0);//movemos brazo con la tecla --> i  40 grados
+            //glRotatef(anguloBrazo1, 1, 0, 0);//lua---> brazo derecho  /////////////////////////////mover brazo 60 automaticamente
 
 
+                    glPushMatrix();////brazo
+                    glRotatef(90, 1, 0, 0);
+                    gluCylinder(p, UPPER_ARM_RADIUS, UPPER_ARM_RADIUS, UPPER_ARM_HEIGHT, 10,
+                    10);
+                    glPopMatrix();
+
+                    glTranslatef(0, -3, 0);
+                    glRotatef(anguloAntebrazoDerecho, 1, 0, 0);//lla -- antebrazo derecho
+
+                glPushMatrix();
+                    glRotatef(90, 1, 0, 0);
+                    gluCylinder(p, LOWER_ARM_RADIUS, LOWER_ARM_RADIUS, LOWER_ARM_HEIGHT, 10,
+                                10);
 
 
-    //codo
+
+
+        //codo
     glPushMatrix();
     glTranslatef(0,0,0);
     glutSolidSphere(0.7,5,5);
@@ -136,11 +142,11 @@ void graficar()
     glTranslatef(-0.3,0,0.6);
     gluCylinder(p,0.1,0.1,0.3,10,10);
 
-    glPushMatrix();
-    //falange media
-    glTranslatef(0,0,0.3);
-    glRotatef(90,1,0,0);
-    gluCylinder(p,0.1,0.1,0.3,10,10);
+                glPushMatrix();
+                //falange media
+                glTranslatef(0,0,0.3);
+                glRotatef(moverFalangeMedia,1,0,0);
+                gluCylinder(p,0.1,0.1,0.3,10,10);
 
 
     glPopMatrix();// fin de falange media
@@ -158,14 +164,14 @@ void graficar()
     glPushMatrix();
     //falange media
     glTranslatef(0,0,0.3);
-    glRotatef(90,1,0,0);
+    glRotatef(moverFalangeMedia,1,0,0);
     gluCylinder(p,0.1,0.1,0.3,10,10);
 
     glPushMatrix();
 
     //falange distal
     glTranslatef(0,0,0.3);
-    glRotatef(45,1,0,0);
+    glRotatef(moverFalangeMedia,1,0,0);
     gluCylinder(p,0.1,0.1,0.3,10,10);
 
     glPopMatrix();// fin de falange proximal
@@ -182,14 +188,14 @@ void graficar()
     glPushMatrix();
     //falange media
     glTranslatef(0,0,0.38);
-    glRotatef(90,1,0,0);
+    glRotatef(moverFalangeMedia,1,0,0);
     gluCylinder(p,0.1,0.1,0.38,10,10);
 
     glPushMatrix();
 
     //falange distal
     glTranslatef(0,0,0.38);
-    glRotatef(45,1,0,0);
+    glRotatef(moverFalangeMedia,1,0,0);
     gluCylinder(p,0.1,0.1,0.38,10,10);
 
     glPopMatrix();// fin de falange proximal
@@ -207,14 +213,14 @@ void graficar()
     glPushMatrix();
     //falange media
     glTranslatef(0,0,0.3);
-    glRotatef(90,1,0,0);
+    glRotatef(moverFalangeMedia,1,0,0);
     gluCylinder(p,0.1,0.1,0.3,10,10);
 
     glPushMatrix();
 
     //falange distal
     glTranslatef(0,0,0.3);
-    glRotatef(45,1,0,0);
+    glRotatef(moverFalangeMedia,1,0,0);
     gluCylinder(p,0.1,0.1,0.3,10,10);
 
     glPopMatrix();// fin de falange proximal
@@ -231,7 +237,7 @@ void graficar()
     glPushMatrix();
     //falange media
     glTranslatef(0,0,0.3);
-    glRotatef(90,1,0,0);
+    glRotatef(moverFalangeMedia,1,0,0);
     gluCylinder(p,0.1,0.1,0.3,10,10);
 
 
@@ -427,13 +433,13 @@ void graficar()
     glTranslatef(0,0,0);
     glutSolidSphere(0.7,5,5);
     glPopMatrix();
-     //pie
-   glPushMatrix();
-   glRotatef(anguloPie2,1,0,0);/////////////////rotar al caminar
+    //pie
+    glPushMatrix();
+    glRotatef(anguloPie2,1,0,0);/////////////////rotar al caminar
     glScalef(1,1.5,1);
-   glTranslatef(0,-0.2,2);
+    glTranslatef(0,-0.2,2);
     glutSolidSphere(0.8,5,5);
-   glPopMatrix();
+    glPopMatrix();
 
     glPopMatrix();
 
@@ -464,83 +470,20 @@ void graficar()
     glTranslatef(0,0,0);
     glutSolidSphere(0.7,5,5);
 
-   //pie
-   glPushMatrix();
-   glRotatef(anguloPie,1,0,0);/////////////////rotar al caminar
+    //pie
+    glPushMatrix();
+    glRotatef(anguloPie,1,0,0);/////////////////rotar al caminar
     glScalef(1,1.5,1);
-   glTranslatef(0,-0.2,2);
+    glTranslatef(0,-0.2,2);
     glutSolidSphere(0.8,5,5);
-   glPopMatrix();
-
     glPopMatrix();
 
     glPopMatrix();
+
+    glPopMatrix();
     glPopMatrix();
 
 
-    /*//tronco
-    glPushMatrix();
-    glutSolidCube(6);
-
-    //cuello
-        glPushMatrix();
-
-        glTranslatef(0,4,0);
-        glRotatef(90,1,0,0);
-        gluCylinder(p,1,3,4,16,16);
-
-                //cabeza
-                glPushMatrix();
-
-                glTranslatef(0,0,-1);
-                glutSolidSphere(1.5,10,10);
-                glPopMatrix(); //fin cabeza
-
-        glPopMatrix();//fin cuello
-
-        //brazo derecho
-        glPushMatrix();
-        //glRotatef(45,1,0,1);
-      //  glTranslatef(3.8,2.8,0);
-        glTranslatef(3.8,2.8,0);
-        glutSolidSphere(0.7,10,10);
-        glTranslatef(0.1,-0.2,-0.2);
-        glRotated(80,1,0,0);
-        gluCylinder(p,0.8,0.8,2.5,14,14);
-
-        glPopMatrix();//fin brazo derecho;
-
-
-    glPopMatrix(); //fin tronco
-
-    */
-    /*
-
-    glPushMatrix();
-        ///Tronco
-        glRotatef(anguloTronco,0,1,0);
-        glutSolidCube(6);
-                glPushMatrix();
-                    ///Cabeza
-                    glTranslatef(0,5,0);
-                    glutSolidSphere(2,16,16);
-                glPopMatrix();
-        glPushMatrix();
-            ///Brazo1
-            glColor3f(1,0,0);
-            glTranslatef(0,0,3);
-            glRotatef(anguloBrazo1,0,0,1);
-            gluCylinder(p,2,2,5,16,16);
-            glPushMatrix();
-                ///Antebrazo1
-                glColor3f(0,0,0);
-                glTranslatef(0,0,5);
-                glRotatef(anguloAntebrazo1,1,0,0);
-                gluCylinder(p,2,1,4,16,16);
-            glPopMatrix();
-        glPopMatrix();
-    glPopMatrix();
-    */
 
 
     glutSwapBuffers();
@@ -569,13 +512,11 @@ bool brazo=true;
 
 void moverBrazo1(int i)
 {
-    cout<< anguloBrazo1<<endl;
     if(anguloBrazo1<=45&& brazo ==true )
         anguloBrazo1 += - 1;
 
     if(anguloBrazo1 ==-44)
     {
-        cout<<"llego a bool"<<endl;
         brazo =false;
     }
     if(anguloBrazo1==44)
@@ -585,49 +526,14 @@ void moverBrazo1(int i)
     if(anguloBrazo1 <=45 && brazo==false)
         anguloBrazo1 = anguloBrazo1 +1;
 
-    /*
-        if(brazo)
-            {
-                anguloBrazo1=60;
-                brazo=false;
-            }
-
-            else
-            {
-               anguloBrazo1=-20;
-                brazo= true;
-            }*/
 
     glutPostRedisplay();
 
     glutTimerFunc(100,moverBrazo1,2);
 }
 
-bool pierna;/*
-void moverPiernas(int i)
-{
+bool pierna;
 
-    cout<< anguloPierna<<endl;
-    if(anguloPierna<=45&& pierna==true )
-        anguloPierna += - 1;
-    translationZ+=-0.1;
-
-    if(anguloPierna==-44)
-    {
-        cout<<"llego a bool"<<endl;
-        brazo =false;
-    }
-    if(anguloBrazo1==44)
-    {
-        brazo =true;
-    }
-    if(anguloPierna <=45 && pierna==false)
-        anguloPierna= anguloBrazo1 +1;
-
-    glutPostRedisplay();
-    glutTimerFunc(100,moverPiernas,2);
-}
-*/
 void moverAntebrazo1(int i)
 {
     /*
@@ -700,11 +606,13 @@ void saltarPersonaje(int i)
 
 bool extraPiernas=true;
 bool extrarRotarCuerpo= true;
-
-
+  bool temAntebrazoDerechoM=false;
+bool  temMoverFalangeMedia = false;
 void eventoTeclado(unsigned char key,int x, int y)
 {
     float auxPiernas=0.0;
+     float fraction = 0.5;
+
     switch(key)
     {
     case ' ':
@@ -751,9 +659,9 @@ void eventoTeclado(unsigned char key,int x, int y)
             anguloPierna2= anguloPierna;*/
             auxPiernas=anguloPierna;
 
-        anguloPierna = anguloPierna2;
-        anguloPierna2= auxPiernas;
-         anguloPie=-45;
+            anguloPierna = anguloPierna2;
+            anguloPierna2= auxPiernas;
+            anguloPie=-45;
             anguloPie2=0;
             extraPiernas=false;
         }
@@ -763,10 +671,10 @@ void eventoTeclado(unsigned char key,int x, int y)
             /*anguloPierna=0;
             anguloPierna2= anguloPierna;*/
             auxPiernas=anguloPierna;
-        anguloPierna = anguloPierna2;
-        anguloPierna2= auxPiernas;
-         anguloPie=0;
-         anguloPie2=-45;
+            anguloPierna = anguloPierna2;
+            anguloPierna2= auxPiernas;
+            anguloPie=0;
+            anguloPie2=-45;
 
             extraPiernas= true;
 
@@ -786,8 +694,111 @@ void eventoTeclado(unsigned char key,int x, int y)
         rotarCuerpo-=5;
 
         break;
-    case 27:
+
+
+    case 'i':
+        if(anguloBrazoDerecho>=40){
+            anguloBrazoDerecho=0.0;
+        }else{
+            anguloBrazoDerecho=40.0;
+        }
+
+    break;
+
+    case 'l':
+
+            if(anguloAntebrazoDerecho==90 ){
+               temAntebrazoDerechoM = true;
+
+               }
+               if(temAntebrazoDerechoM==true){
+                       anguloAntebrazoDerecho=anguloAntebrazoDerecho-1;
+
+                        if(anguloAntebrazoDerecho==0.0){
+                        temAntebrazoDerechoM= false;
+
+                            }
+            }else{
+                   anguloAntebrazoDerecho=anguloAntebrazoDerecho+1;
+
+            }
+
+
+
+
+
+    break;
+
+    case 'p':
+
+              if(  moverFalangeMedia==90 ){
+               temMoverFalangeMedia = true;
+
+               }
+               if(temMoverFalangeMedia==true){
+                         moverFalangeMedia=  moverFalangeMedia-1;
+
+                        if(  moverFalangeMedia==0.0){
+                        temMoverFalangeMedia= false;
+
+                            }
+            }else{
+                     moverFalangeMedia=  moverFalangeMedia+1;
+
+            }
+
+
+
+
+    break;
+
+
+    case 27://cerrar aplicacion con esc
         exit(0);
+        break;
+
+        /**************************************/
+         case '4':
+
+        angle -=0.05;
+        visX= sin(angle);
+        visZ = -cos(angle);
+        break;
+
+    case '6':
+
+        angle +=0.05;
+        visX= sin(angle);
+        visZ = -cos(angle);
+
+        break;
+    case '8':
+
+
+        posX += visX * fraction;
+        posZ+= visZ * fraction;
+        //visY++;
+
+        break;
+
+
+
+    case '5':
+        posX -= visX * fraction;
+        posZ -= visZ * fraction;
+
+        break;
+
+    case '1':
+
+        visY+=0.05;
+
+        break;
+
+    case '3':
+
+        visY-=0.05;
+
         break;
 
 
@@ -824,15 +835,6 @@ int main(int argc, char** argv)
     glEnable(GL_COLOR_MATERIAL);
     glEnable(GL_LIGHTING);
 
-    glLightfv(GL_LIGHT0, GL_AMBIENT,  light_ambient);
-    glLightfv(GL_LIGHT0, GL_DIFFUSE,   light_diffuse);
-    glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
-    glLightfv(GL_LIGHT0, GL_POSITION,  light_position);
-
-    glMaterialfv(GL_FRONT, GL_AMBIENT,   mat_ambient);
-    glMaterialfv(GL_FRONT, GL_DIFFUSE,    mat_diffuse);
-    glMaterialfv(GL_FRONT, GL_SPECULAR,  mat_specular);
-    glMaterialfv(GL_FRONT, GL_SHININESS, high_shininess);
 
     glutMainLoop();
 
